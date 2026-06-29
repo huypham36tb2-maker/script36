@@ -1,5 +1,7 @@
 -- ========================================================
--- GROW A GARDEN AUTO FARM + KEY SYSTEM (OWNER ONLY)
+-- GROW A GARDEN AUTO FARM + KEY SYSTEM
+-- KEY: key-36678-script36
+-- MẬT KHẨU: matkhau
 -- ========================================================
 
 local player = game:GetService("Players").LocalPlayer
@@ -7,9 +9,9 @@ local httpService = game:GetService("HttpService")
 local replicatedStorage = game:GetService("ReplicatedStorage")
 local workspace = game:GetService("Workspace")
 
--- ===== CẤU HÌNH =====
-local KEY = "chuotdzne"  -- 👈 THAY KEY CỦA BẠN VÀO ĐÂY
-local PASSWORD = "chuotdzne" -- 👈 THAY MẬT KHẨU CỦA BẠN VÀO ĐÂY
+-- ===== CẤU HÌNH (SỬA Ở ĐÂY) =====
+local KEY = "key-36678-script36"      -- 👈 KEY CHÍNH XÁC
+local PASSWORD = "matkhau"            -- 👈 MẬT KHẨU CHÍNH XÁC
 
 local verified = false
 
@@ -137,7 +139,7 @@ local function createGUI()
             return
         end
         
-        -- Kiểm tra key (cứng)
+        -- Kiểm tra key (chính xác)
         if key == KEY and password == PASSWORD then
             statusLabel.Text = "✅ XÁC THỰC THÀNH CÔNG!"
             statusLabel.TextColor3 = Color3.fromRGB(100, 255, 100)
@@ -296,6 +298,7 @@ local function startFarm()
 end
 
 -- ===== CHẠY SCRIPT =====
-print("🔐 KEY SYSTEM - OWNER ONLY")
-print("📌 Vui lòng nhập key để xác thực")
-createGUI()
+print("🔐 KEY SYSTEM - GROW A GARDEN")
+print("📌 Nhập key: key-36678-script36")
+print("📌 Mật khẩu: matkhau")
+createGUI() 
