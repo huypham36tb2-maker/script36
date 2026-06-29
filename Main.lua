@@ -1,159 +1,151 @@
 -- ========================================================
 -- GROW A GARDEN AUTO FARM + KEY SYSTEM
--- KEY: key-36678-script36
--- MẬT KHẨU: matkhau
+-- KEY: key-36678-script36 | MẬT KHẨU: matkhau
 -- ========================================================
 
 local player = game:GetService("Players").LocalPlayer
-local httpService = game:GetService("HttpService")
 local replicatedStorage = game:GetService("ReplicatedStorage")
 local workspace = game:GetService("Workspace")
 
--- ===== CẤU HÌNH (SỬA Ở ĐÂY) =====
-local KEY = "key-36678-script36"      -- 👈 KEY CHÍNH XÁC
-local PASSWORD = "matkhau"            -- 👈 MẬT KHẨU CHÍNH XÁC
-
-local verified = false
+-- ===== CẤU HÌNH =====
+local KEY = "key-36678-script36"
+local PASSWORD = "matkhau"
 
 -- ===== TẠO GUI XÁC THỰC =====
-local function createGUI()
-    local screenGui = Instance.new("ScreenGui")
-    screenGui.Name = "KeySystem"
-    screenGui.IgnoreGuiInset = true
-    screenGui.Parent = player.PlayerGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "KeySystem"
+screenGui.IgnoreGuiInset = true
+screenGui.Parent = player.PlayerGui
 
-    local mainFrame = Instance.new("Frame")
-    mainFrame.Size = UDim2.new(0, 400, 0, 320)
-    mainFrame.Position = UDim2.new(0.5, -200, 0.5, -160)
-    mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
-    mainFrame.BackgroundTransparency = 0.1
-    mainFrame.BorderSizePixel = 0
-    mainFrame.Active = true
-    mainFrame.Draggable = true
-    mainFrame.Parent = screenGui
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 400, 0, 320)
+mainFrame.Position = UDim2.new(0.5, -200, 0.5, -160)
+mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+mainFrame.BackgroundTransparency = 0.1
+mainFrame.BorderSizePixel = 0
+mainFrame.Active = true
+mainFrame.Draggable = true
+mainFrame.Parent = screenGui
 
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, 12)
-    corner.Parent = mainFrame
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 12)
+corner.Parent = mainFrame
 
-    -- Title
-    local title = Instance.new("TextLabel")
-    title.Size = UDim2.new(1, 0, 0, 50)
-    title.Position = UDim2.new(0, 0, 0, 0)
-    title.BackgroundColor3 = Color3.fromRGB(30, 30, 50)
-    title.BackgroundTransparency = 0
-    title.Text = "🔐 XÁC THỰC KEY"
-    title.TextColor3 = Color3.fromRGB(255, 255, 255)
-    title.TextSize = 20
-    title.Font = Enum.Font.GothamBold
-    title.Parent = mainFrame
+-- Title
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0, 50)
+title.Position = UDim2.new(0, 0, 0, 0)
+title.BackgroundColor3 = Color3.fromRGB(30, 30, 50)
+title.BackgroundTransparency = 0
+title.Text = "🔐 XÁC THỰC KEY"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.TextSize = 20
+title.Font = Enum.Font.GothamBold
+title.Parent = mainFrame
 
-    -- Key
-    local keyLabel = Instance.new("TextLabel")
-    keyLabel.Size = UDim2.new(1, 0, 0, 25)
-    keyLabel.Position = UDim2.new(0, 0, 0.2, 0)
-    keyLabel.BackgroundTransparency = 1
-    keyLabel.Text = "📌 NHẬP KEY:"
-    keyLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
-    keyLabel.TextSize = 14
-    keyLabel.Font = Enum.Font.Gotham
-    keyLabel.Parent = mainFrame
+-- Key
+local keyLabel = Instance.new("TextLabel")
+keyLabel.Size = UDim2.new(1, 0, 0, 25)
+keyLabel.Position = UDim2.new(0, 0, 0.2, 0)
+keyLabel.BackgroundTransparency = 1
+keyLabel.Text = "📌 NHẬP KEY:"
+keyLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+keyLabel.TextSize = 14
+keyLabel.Font = Enum.Font.Gotham
+keyLabel.Parent = mainFrame
 
-    local keyBox = Instance.new("TextBox")
-    keyBox.Size = UDim2.new(0.8, 0, 0, 35)
-    keyBox.Position = UDim2.new(0.1, 0, 0.3, 0)
-    keyBox.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
-    keyBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-    keyBox.TextSize = 16
-    keyBox.Font = Enum.Font.Gotham
-    keyBox.PlaceholderText = "Nhập key..."
-    keyBox.PlaceholderColor3 = Color3.fromRGB(150, 150, 150)
-    keyBox.ClearTextOnFocus = false
-    keyBox.Parent = mainFrame
+local keyBox = Instance.new("TextBox")
+keyBox.Size = UDim2.new(0.8, 0, 0, 35)
+keyBox.Position = UDim2.new(0.1, 0, 0.3, 0)
+keyBox.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
+keyBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+keyBox.TextSize = 16
+keyBox.Font = Enum.Font.Gotham
+keyBox.PlaceholderText = "Nhập key..."
+keyBox.PlaceholderColor3 = Color3.fromRGB(150, 150, 150)
+keyBox.ClearTextOnFocus = false
+keyBox.Parent = mainFrame
 
-    local corner2 = Instance.new("UICorner")
-    corner2.CornerRadius = UDim.new(0, 8)
-    corner2.Parent = keyBox
+local corner2 = Instance.new("UICorner")
+corner2.CornerRadius = UDim.new(0, 8)
+corner2.Parent = keyBox
 
-    -- Password
-    local passLabel = Instance.new("TextLabel")
-    passLabel.Size = UDim2.new(1, 0, 0, 25)
-    passLabel.Position = UDim2.new(0, 0, 0.5, 0)
-    passLabel.BackgroundTransparency = 1
-    passLabel.Text = "🔒 NHẬP MẬT KHẨU:"
-    passLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
-    passLabel.TextSize = 14
-    passLabel.Font = Enum.Font.Gotham
-    passLabel.Parent = mainFrame
+-- Password
+local passLabel = Instance.new("TextLabel")
+passLabel.Size = UDim2.new(1, 0, 0, 25)
+passLabel.Position = UDim2.new(0, 0, 0.5, 0)
+passLabel.BackgroundTransparency = 1
+passLabel.Text = "🔒 NHẬP MẬT KHẨU:"
+passLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
+passLabel.TextSize = 14
+passLabel.Font = Enum.Font.Gotham
+passLabel.Parent = mainFrame
 
-    local passBox = Instance.new("TextBox")
-    passBox.Size = UDim2.new(0.8, 0, 0, 35)
-    passBox.Position = UDim2.new(0.1, 0, 0.6, 0)
-    passBox.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
-    passBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-    passBox.TextSize = 16
-    passBox.Font = Enum.Font.Gotham
-    passBox.PlaceholderText = "Nhập mật khẩu..."
-    passBox.PlaceholderColor3 = Color3.fromRGB(150, 150, 150)
-    passBox.ClearTextOnFocus = false
-    passBox.Parent = mainFrame
+local passBox = Instance.new("TextBox")
+passBox.Size = UDim2.new(0.8, 0, 0, 35)
+passBox.Position = UDim2.new(0.1, 0, 0.6, 0)
+passBox.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
+passBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+passBox.TextSize = 16
+passBox.Font = Enum.Font.Gotham
+passBox.PlaceholderText = "Nhập mật khẩu..."
+passBox.PlaceholderColor3 = Color3.fromRGB(150, 150, 150)
+passBox.ClearTextOnFocus = false
+passBox.Parent = mainFrame
 
-    local corner3 = Instance.new("UICorner")
-    corner3.CornerRadius = UDim.new(0, 8)
-    corner3.Parent = passBox
+local corner3 = Instance.new("UICorner")
+corner3.CornerRadius = UDim.new(0, 8)
+corner3.Parent = passBox
 
-    -- Verify Button
-    local verifyBtn = Instance.new("TextButton")
-    verifyBtn.Size = UDim2.new(0.4, 0, 0, 40)
-    verifyBtn.Position = UDim2.new(0.3, 0, 0.8, 0)
-    verifyBtn.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
-    verifyBtn.Text = "✅ XÁC THỰC"
-    verifyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-    verifyBtn.TextSize = 16
-    verifyBtn.Font = Enum.Font.GothamBold
-    verifyBtn.Parent = mainFrame
+-- Verify Button
+local verifyBtn = Instance.new("TextButton")
+verifyBtn.Size = UDim2.new(0.4, 0, 0, 40)
+verifyBtn.Position = UDim2.new(0.3, 0, 0.8, 0)
+verifyBtn.BackgroundColor3 = Color3.fromRGB(0, 150, 255)
+verifyBtn.Text = "✅ XÁC THỰC"
+verifyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+verifyBtn.TextSize = 16
+verifyBtn.Font = Enum.Font.GothamBold
+verifyBtn.Parent = mainFrame
 
-    local corner4 = Instance.new("UICorner")
-    corner4.CornerRadius = UDim.new(0, 8)
-    corner4.Parent = verifyBtn
+local corner4 = Instance.new("UICorner")
+corner4.CornerRadius = UDim.new(0, 8)
+corner4.Parent = verifyBtn
 
-    -- Status
-    local statusLabel = Instance.new("TextLabel")
-    statusLabel.Size = UDim2.new(1, 0, 0, 30)
-    statusLabel.Position = UDim2.new(0, 0, 0.9, 0)
-    statusLabel.BackgroundTransparency = 1
-    statusLabel.Text = "⏳ Vui lòng nhập key và mật khẩu"
-    statusLabel.TextColor3 = Color3.fromRGB(255, 200, 100)
-    statusLabel.TextSize = 13
-    statusLabel.Font = Enum.Font.Gotham
-    statusLabel.Parent = mainFrame
+-- Status
+local statusLabel = Instance.new("TextLabel")
+statusLabel.Size = UDim2.new(1, 0, 0, 30)
+statusLabel.Position = UDim2.new(0, 0, 0.9, 0)
+statusLabel.BackgroundTransparency = 1
+statusLabel.Text = "⏳ Vui lòng nhập key và mật khẩu"
+statusLabel.TextColor3 = Color3.fromRGB(255, 200, 100)
+statusLabel.TextSize = 13
+statusLabel.Font = Enum.Font.Gotham
+statusLabel.Parent = mainFrame
 
-    -- ===== XỬ LÝ XÁC THỰC =====
-    verifyBtn.MouseButton1Click:Connect(function()
-        local key = keyBox.Text
-        local password = passBox.Text
+-- ===== XỬ LÝ XÁC THỰC =====
+verifyBtn.MouseButton1Click:Connect(function()
+    local key = keyBox.Text
+    local password = passBox.Text
+    
+    if key == "" or password == "" then
+        statusLabel.Text = "❌ Vui lòng nhập đầy đủ!"
+        statusLabel.TextColor3 = Color3.fromRGB(255, 100, 100)
+        return
+    end
+    
+    if key == KEY and password == PASSWORD then
+        statusLabel.Text = "✅ XÁC THỰC THÀNH CÔNG!"
+        statusLabel.TextColor3 = Color3.fromRGB(100, 255, 100)
         
-        if key == "" or password == "" then
-            statusLabel.Text = "❌ Vui lòng nhập đầy đủ!"
-            statusLabel.TextColor3 = Color3.fromRGB(255, 100, 100)
-            return
-        end
-        
-        -- Kiểm tra key (chính xác)
-        if key == KEY and password == PASSWORD then
-            statusLabel.Text = "✅ XÁC THỰC THÀNH CÔNG!"
-            statusLabel.TextColor3 = Color3.fromRGB(100, 255, 100)
-            verified = true
-            
-            task.wait(1)
-            screenGui:Destroy()
-            startFarm()
-        else
-            statusLabel.Text = "❌ Sai key hoặc mật khẩu!"
-            statusLabel.TextColor3 = Color3.fromRGB(255, 100, 100)
-        end
-    end)
-end
+        task.wait(1)
+        screenGui:Destroy()
+        startFarm()  -- Gọi hàm farm
+    else
+        statusLabel.Text = "❌ Sai key hoặc mật khẩu!"
+        statusLabel.TextColor3 = Color3.fromRGB(255, 100, 100)
+    end
+end)
 
 -- ===== SCRIPT FARM =====
 local function startFarm()
@@ -297,8 +289,6 @@ local function startFarm()
     end)()
 end
 
--- ===== CHẠY SCRIPT =====
 print("🔐 KEY SYSTEM - GROW A GARDEN")
 print("📌 Nhập key: key-36678-script36")
 print("📌 Mật khẩu: matkhau")
-createGUI() 
