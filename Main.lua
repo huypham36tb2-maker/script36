@@ -8,8 +8,8 @@ local replicatedStorage = game:GetService("ReplicatedStorage")
 local workspace = game:GetService("Workspace")
 
 -- ===== CẤU HÌNH =====
-local KEY = "ABC123XYZ789"  -- 👈 THAY KEY CỦA BẠN VÀO ĐÂY
-local PASSWORD = "abc123xyz" -- 👈 THAY MẬT KHẨU CỦA BẠN VÀO ĐÂY
+local KEY = "chuotdzne"  -- 👈 THAY KEY CỦA BẠN VÀO ĐÂY
+local PASSWORD = "chuotdzne" -- 👈 THAY MẬT KHẨU CỦA BẠN VÀO ĐÂY
 
 local verified = false
 
